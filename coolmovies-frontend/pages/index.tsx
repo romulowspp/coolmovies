@@ -2,6 +2,11 @@ import { css } from '@emotion/react';
 import {
   Alert,
   Button,
+  CircularProgress,
+  Container,
+  List,
+  ListItem,
+  ListItemText,
   Paper,
   TextField,
   Tooltip,
@@ -10,6 +15,7 @@ import {
 } from '@mui/material';
 import type { NextPage } from 'next';
 import { movieActions, useAppDispatch, useAppSelector } from '../redux';
+import Navbar from '../components/Navbar';
 
 const primary = '#1976d2';
 
@@ -18,51 +24,58 @@ const Home: NextPage = () => {
   const movieState = useAppSelector((state) => state.movie);
   return (
     <div css={styles.root}>
-      <Paper elevation={3} css={styles.navBar}>
-        <Typography>{'EcoPortal'}</Typography>
-      </Paper>
+      <Container maxWidth="xl">
+        <Navbar />
 
-      <div css={styles.body}>
-        <Typography variant={'h1'} css={styles.heading}>
-          {'EcoPortal Coolmovies Test'}
-        </Typography>
-        <Typography variant={'subtitle1'} css={styles.subtitle}>
-          {`Thank you for taking the time to take our test. We really appreciate it. 
-        All the information on what is required can be found in the README at the root of this repo. 
-        Please don't spend ages on this and just get through as much of it as you can. 
-        Good luck! 😄`}
-        </Typography>
+        <div css={styles.body}>
+          <Container>
+          {movieState?.isLoading ? (
+            <CircularProgress />
+          ) : (
+            <List>
+              {movieState?.fetchData?.map(movie => (
+                <ListItem key={movie.id}>
+                  <ListItemText
+                    primary={movie.title}
+                    secondary={`${movie.releaseDate} - Rating: ${movie.id}`}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          )}
+        </Container>
 
-        <div css={styles.mainControls}>
-          <Button
-            variant={'outlined'}
-            onClick={() =>
-              dispatch(
-                movieState.fetchData
-                  ? movieActions.clearData()
-                  : movieActions.fetch()
-              )
-            }
-          >
-            {movieState.fetchData ? 'Hide some data' : 'Fetch some data'}
-          </Button>
+          <div css={styles.mainControls}>
+            <Button
+              variant={'outlined'}
+              onClick={() =>
+                dispatch(
+                  movieState.fetchData
+                    ? movieActions.clearData()
+                    : movieActions.fetch()
+                )
+              }
+            >
+              {movieState.fetchData ? 'Hide some data' : 'Fetch some data'}
+            </Button>
+          </div>
+
+          { movieState.fetchError && (
+            <Alert severity="error">Error fetching movies!</Alert>
+          )}
+
+          { movieState.fetchData && (
+            <Zoom in={Boolean(movieState.fetchData)} unmountOnExit mountOnEnter>
+              <TextField
+                css={styles.dataInput}
+                multiline
+                label={'Some Data'}
+                defaultValue={JSON.stringify(movieState.fetchData)}
+              />
+            </Zoom>
+          )}
         </div>
-
-        { movieState.fetchError && (
-          <Alert severity="error">Error fetching movies!</Alert>
-        )}
-
-        { movieState.fetchData && (
-          <Zoom in={Boolean(movieState.fetchData)} unmountOnExit mountOnEnter>
-            <TextField
-              css={styles.dataInput}
-              multiline
-              label={'Some Data'}
-              defaultValue={JSON.stringify(movieState.fetchData)}
-            />
-          </Zoom>
-        )}
-      </div>
+      </Container>
     </div>
   );
 };
@@ -75,24 +88,19 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
   }),
-  navBar: css({
-    background: primary,
-    height: 50,
-    alignSelf: 'stretch',
-    display: 'flex',
-    alignItems: 'center',
-    padding: 16,
-    borderRadius: 0,
-    p: {
-      color: 'white',
-    },
-  }),
   body: css({
     alignSelf: 'stretch',
     padding: 32,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    borderStyle: 'solid',
+    height: '100vh',
+    borderBottom: 0,
+    borderTop: 0,
+    borderWidth: 0.5,
+    marginTop: 10,
+    boxShadow: '5px 0 5px -5px rgba(0, 0, 0, 0.4), -5px 0 5px -5px rgba(0, 0, 0, 0.4)'
   }),
   heading: css({ marginTop: 16, fontSize: '2.75rem', textAlign: 'center' }),
   subtitle: css({
