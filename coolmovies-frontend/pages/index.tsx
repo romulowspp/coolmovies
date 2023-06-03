@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import {
+  Alert,
   Button,
   Paper,
   TextField,
@@ -8,13 +9,13 @@ import {
   Zoom,
 } from '@mui/material';
 import type { NextPage } from 'next';
-import { exampleActions, useAppDispatch, useAppSelector } from '../redux';
+import { movieActions, useAppDispatch, useAppSelector } from '../redux';
 
 const primary = '#1976d2';
 
 const Home: NextPage = () => {
   const dispatch = useAppDispatch();
-  const exampleState = useAppSelector((state) => state.example);
+  const movieState = useAppSelector((state) => state.movie);
   return (
     <div css={styles.root}>
       <Paper elevation={3} css={styles.navBar}>
@@ -33,39 +34,34 @@ const Home: NextPage = () => {
         </Typography>
 
         <div css={styles.mainControls}>
-          <Tooltip
-            title={`Side Effect Count from Epic (Gets run on odd values): ${exampleState.sideEffectCount}`}
-            arrow
-          >
-            <Button
-              variant={'contained'}
-              onClick={() => dispatch(exampleActions.increment())}
-            >
-              {`Redux Increment: ${exampleState.value}`}
-            </Button>
-          </Tooltip>
           <Button
             variant={'outlined'}
             onClick={() =>
               dispatch(
-                exampleState.fetchData
-                  ? exampleActions.clearData()
-                  : exampleActions.fetch()
+                movieState.fetchData
+                  ? movieActions.clearData()
+                  : movieActions.fetch()
               )
             }
           >
-            {exampleState.fetchData ? 'Hide some data' : 'Fetch some data'}
+            {movieState.fetchData ? 'Hide some data' : 'Fetch some data'}
           </Button>
         </div>
 
-        <Zoom in={Boolean(exampleState.fetchData)} unmountOnExit mountOnEnter>
-          <TextField
-            css={styles.dataInput}
-            multiline
-            label={'Some Data'}
-            defaultValue={JSON.stringify(exampleState.fetchData)}
-          />
-        </Zoom>
+        { movieState.fetchError && (
+          <Alert severity="error">Error fetching movies!</Alert>
+        )}
+
+        { movieState.fetchData && (
+          <Zoom in={Boolean(movieState.fetchData)} unmountOnExit mountOnEnter>
+            <TextField
+              css={styles.dataInput}
+              multiline
+              label={'Some Data'}
+              defaultValue={JSON.stringify(movieState.fetchData)}
+            />
+          </Zoom>
+        )}
       </div>
     </div>
   );
