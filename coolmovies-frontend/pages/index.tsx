@@ -15,20 +15,13 @@ import { useAppDispatch, useAppSelector } from '../redux';
 import Navbar from '../components/Navbar';
 import MovieList from '../components/MovieList';
 
-const primary = '#1976d2';
-
 const Home: NextPage = () => {
-  const dispatch = useAppDispatch();
-  const movieState = useAppSelector((state) => state.movie);
   return (
     <div css={styles.root}>
-      <Container maxWidth="xl">
-        <Navbar />
-
         <div css={styles.body}>
           <Box sx={{ display: 'flex' }}>
             <Box component="main" sx={{ flexGrow: 1 }}>
-              <Container>
+              {/* <Container>
                 {movieState?.isLoading ? (
                   <CircularProgress />
                 ) : (
@@ -43,7 +36,7 @@ const Home: NextPage = () => {
                     ))}
                   </List>
                 )}
-              </Container>
+              </Container> */}
 
               <div css={styles.mainControls}>
                 <MovieList />
@@ -61,7 +54,7 @@ const Home: NextPage = () => {
                 </Button> */}
               </div>
 
-              {movieState.fetchError && (
+              {/* {movieState.fetchError && (
                 <Alert severity="error">Error fetching movies!</Alert>
               )}
 
@@ -74,11 +67,10 @@ const Home: NextPage = () => {
                     defaultValue={JSON.stringify(movieState.fetchData)}
                   />
                 </Zoom>
-              )}
+              )} */}
             </Box>
           </Box>
         </div>
-      </Container>
     </div>
   );
 };

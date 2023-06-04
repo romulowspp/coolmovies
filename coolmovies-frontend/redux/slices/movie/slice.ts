@@ -23,6 +23,7 @@ export const slice = createSlice({
     },
     loaded: (state, action: PayloadAction<{ data: Movie[] }>) => {
       state.fetchData = action.payload.data;
+      console.log(state.fetchData);
       state.isLoading = false;
     },
     loadError: (state) => {

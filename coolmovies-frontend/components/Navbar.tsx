@@ -17,7 +17,7 @@ const Navbar = () => {
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
+        href={'/'}
       >
         HOME
       </Button>
@@ -27,7 +27,7 @@ const Navbar = () => {
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
+        href={`/reviews`}
       >
         MY REVIEWS
       </Button>
