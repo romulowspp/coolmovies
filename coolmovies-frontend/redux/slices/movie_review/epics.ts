@@ -1,11 +1,12 @@
 import { gql } from '@apollo/client';
-import { Epic, StateObservable, ofType } from 'redux-observable';
-import { Observable, interval, of, from, filter, catchError, switchMap, throttle, mergeMap, tap } from 'rxjs';
+import { Epic, StateObservable } from 'redux-observable';
+import { Observable, interval } from 'rxjs';
+import { filter, map, switchMap, throttle  } from 'rxjs/operators';
 import { RootState } from '../../store';
 import { EpicDependencies } from '../../types';
 import { actions, SliceAction } from './slice';
 
-export const moviesAsyncEpic: Epic = (
+export const movieRewviewsAsyncEpic: Epic = (
   action$: Observable<SliceAction['fetch']>,
   state$: StateObservable<RootState>,
   { client }: EpicDependencies
@@ -16,31 +17,26 @@ export const moviesAsyncEpic: Epic = (
     switchMap(async () => {
       try {
         const result = await client.query({
-          query: allMoviesQuery,
+          query: allMovieReviewsQuery,
         });
-        return actions.loaded({ data: result.data.allMovies.nodes });
+        return actions.loaded({ data: result.data.allMovieReviews.nodes });
       } catch (err) {
         return actions.loadError();
       }
     })
   );
 
-const allMoviesQuery = gql`
-  query AllMovies {
-    allMovies {
+const allMovieReviewsQuery = gql`
+  query AllMovieReviews {
+    allMovieReviews {
       nodes {
         id
-        imgUrl
-        movieDirectorId
-        userCreatorId
         title
-        releaseDate
+        body
+        rating
+        title
+        movieId
         nodeId
-        userByUserCreatorId {
-          id
-          name
-          nodeId
-        }
       }
     }
   }

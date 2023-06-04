@@ -1,6 +1,7 @@
 import { Button, Container, Typography, css } from "@mui/material";
 import { useState } from "react";
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
+import Link from "next/link";
 
 const Navbar = () => {
   const handleClick = () => { };
@@ -11,26 +12,28 @@ const Navbar = () => {
       <Typography css={styles.logo} >
         {'EcoPortal'}
       </Typography>
-      <Button
+      <Link
         css={styles.navItem}
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         href={'/'}
+        shallow={true}
       >
         HOME
-      </Button>
-      <Button
+      </Link>
+      <Link
         css={styles.navItem}
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         href={`/reviews`}
+        shallow={true}
       >
         MY REVIEWS
-      </Button>
+      </Link>
 
     </Container>
   );

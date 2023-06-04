@@ -1,20 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import Movie from '../../../models/movie.interface';
+import MovieReview from '../../../models/movie-review.interface';
 
-export interface MovieState {
-  fetchData?: Movie[];
+interface MovieReviewState {
+  fetchData?: MovieReview[];
   fetchError?: string;
   isLoading: boolean;
 }
 
-const initialState: MovieState = {
+const initialState: MovieReviewState = {
   isLoading: false
 };
 
-
 export const slice = createSlice({
   initialState,
-  name: 'movie',
+  name: 'movie_review',
   reducers: {
     fetch: (state) => {
       state.isLoading = true;
@@ -22,9 +21,8 @@ export const slice = createSlice({
     clearData: (state) => {
       state.fetchData = undefined;
     },
-    loaded: (state, action: PayloadAction<{ data: Movie[] }>) => {
+    loaded: (state, action: PayloadAction<{ data: MovieReview[] }>) => {
       state.fetchData = action.payload.data;
-      console.log(state.fetchData);
       state.isLoading = false;
     },
     loadError: (state) => {

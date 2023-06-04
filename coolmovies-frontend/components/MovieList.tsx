@@ -11,24 +11,11 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { movieActions, useAppDispatch, useAppSelector } from "../redux";
+import Link from "next/link";
 
 const MovieList = () => {
   const dispatch = useAppDispatch();
   const movieState = useAppSelector((state) => state.movie);
-  const movies = [
-    {
-      id: 1,
-      title: "Star Wars",
-      imageUrl:
-        "https://images-na.ssl-images-amazon.com/images/I/81aA7hEEykL.jpg",
-    },
-    {
-      id: 2,
-      title: "Movie 2",
-      imageUrl:
-        "https://upload.wikimedia.org/wikipedia/en/d/d4/Rogue_One%2C_A_Star_Wars_Story_poster.png",
-    },
-  ];
 
   useEffect(() => {
     if (movieState.fetchData) return;
@@ -71,8 +58,7 @@ const MovieList = () => {
                     {movie.title}
                   </Typography>
                   <Box>
-                    <Button href={`/reviews/${movie.id}`} size="large">View Reviews</Button>
-                    <Button size="large">Review</Button>
+                    <Link shallow={true} href={`/reviews`}>View Reviews</Link>
                   </Box>
                 </Box>
               </CardContent>
