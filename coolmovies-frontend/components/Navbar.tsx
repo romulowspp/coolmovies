@@ -1,39 +1,39 @@
-import { AppBar, Button, Container, Menu, MenuItem, Toolbar, Typography, css } from "@mui/material";
+import { Button, Container, Typography, css } from "@mui/material";
 import { useState } from "react";
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 
 const Navbar = () => {
-    const handleClick = () => {};
-    const [open, setOpen] = useState(false);
-    return (
-        <Container maxWidth="xl" css={styles.navBar}>
-            <MovieFilterIcon sx={{ fontSize: 30 }}/>
-            <Typography css={styles.logo} >
-                {'EcoPortal'}
-            </Typography>
-            <Button
-              css={styles.navItem}
-              id="basic-button"
-              aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClick}
-            >
-              HOME
-            </Button>
-            <Button
-              css={styles.navItem}
-              id="basic-button"
-              aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClick}
-            >
-              MY REVIEWS
-            </Button>
-          
-        </Container>
-    );
+  const handleClick = () => { };
+  const [open, setOpen] = useState(false);
+  return (
+    <Container maxWidth="xl" css={styles.navBar}>
+      <MovieFilterIcon sx={{ fontSize: 30 }} />
+      <Typography css={styles.logo} >
+        {'EcoPortal'}
+      </Typography>
+      <Button
+        css={styles.navItem}
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        HOME
+      </Button>
+      <Button
+        css={styles.navItem}
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        MY REVIEWS
+      </Button>
+
+    </Container>
+  );
 }
 
 const styles = {
