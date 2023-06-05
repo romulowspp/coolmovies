@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Box, Card, CardContent, SvgIcon, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, SvgIcon, Typography } from "@mui/material";
 import {
   movieActions,
   movieReviewActions,
@@ -34,13 +34,19 @@ const MovieReviews = () => {
       {movieReviewState?.fetchData?.map((review) => (
         <Box key={review.id} sx={{ mb: 2 }}>
           <Card sx={{ borderRadius: "16px" }}>
+          <CardMedia
+                component="img"
+                height="140"
+                image={movies?.fetchData?.find((movie) => movie.id === review.movieId)?.imgUrl}
+                alt={movies?.fetchData?.find((movie) => movie.id === review.movieId)?.title}
+              />
             <CardContent>
               <Typography variant="h5" component="div">
                 {review.movieId
                   ? movies?.fetchData?.find(
                       (movie) => movie.id === review.movieId
                     )?.title
-                  : JSON.stringify(review)}
+                  : ''}
               </Typography>
               <Typography variant="h6" component="div">
                 {review.title}
