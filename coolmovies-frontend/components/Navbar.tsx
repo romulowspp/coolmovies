@@ -2,7 +2,7 @@ import { Button, Container, Typography, css } from "@mui/material";
 import { useEffect, useState } from "react";
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import Link from "next/link";
-import { useAppDispatch, userActions } from "../redux";
+import { movieActions, useAppDispatch, userActions } from "../redux";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -11,6 +11,7 @@ const Navbar = () => {
 
   useEffect(() => {
     dispatch(userActions.fetch());
+    dispatch(movieActions.fetch());
   }, [dispatch]);
 
   return (

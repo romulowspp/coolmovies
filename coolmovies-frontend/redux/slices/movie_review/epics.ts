@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client';
 import { Epic, StateObservable } from 'redux-observable';
-import { Observable, interval } from 'rxjs';
-import { filter, map, switchMap, throttle  } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, switchMap  } from 'rxjs/operators';
 import { RootState } from '../../store';
 import { EpicDependencies } from '../../types';
 import { actions, SliceAction } from './slice';
+import MovieReview from '../../../models/movie-review.interface';
 
 export const movieRewviewsAsyncEpic: Epic = (
   action$: Observable<SliceAction['fetch']>,
@@ -69,20 +70,47 @@ export const createMovieReviewAsyncEpic: Epic = (
     })
   );
 
-const createMovieReviewQuery = gql`
-  mutation
-    createMovieReview($title: String!, $body: String!, $rating: Int!, $movieId: String!, $userReviewerId: String!)
-    {
-      createMovieReview(title: $title, body: $body, rating: $rating, movieId: $movieId, userReviewerId: $userReviewerId) {
-        id
-        title
-        body
-        rating
-        movieId
-        userReviewerId
-      }
-    }
-  `;
+  export const updateMovieReviewAsyncEpic: Epic = (
+    action$: Observable<SliceAction['update']>,
+    state$: StateObservable<RootState>,
+    { client }: EpicDependencies
+  ) =>
+    action$.pipe(
+      filter(actions.update.match),
+      switchMap(async (action) => {
+        try {
+          const result = await client.mutate({
+            mutation: gql`mutation {
+              updateMovieReviewById(input: {
+                id: "${action.payload.movieReview.id}",
+                movieReviewPatch: {
+                  title: "${action.payload.movieReview.title}",
+                  body: "${action.payload.movieReview.body}",
+                  rating: ${action.payload.movieReview.rating},
+                  movieId: "${action.payload.movieReview.movieId}",
+                  userReviewerId: "${action.payload.movieReview.userReviewerId}"
+                }})
+              {
+                movieReview {
+                  id
+                  title
+                  body
+                  rating
+                  movieId
+                  userByUserReviewerId {
+                    id
+                    name
+                  }
+                }
+              }
+            }`,
+          });
+          return actions.upsert({ movieReview: result.data.updateMovieReviewById.movieReview as MovieReview });
+        } catch (err) {
+          return actions.loadError();
+        }
+      })
+    );
 
 const allMovieReviewsQuery = gql`
   query AllMovieReviews {

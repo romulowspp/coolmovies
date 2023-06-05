@@ -20,6 +20,15 @@ export const slice = createSlice({
       state.isLoading = true;
     },
     create: (state, action: PayloadAction<{ movieReview: MovieReviewInput }>) => {},
+    update: (state, action: PayloadAction<{ movieReview: MovieReviewInput }>) => {},
+    upsert: (state, action: PayloadAction<{ movieReview: MovieReview }>) => {
+      state.fetchData = state.fetchData?.map((movieReview) => {
+        if (movieReview.id === action.payload.movieReview.id) {
+          return action.payload.movieReview;
+        }
+        return movieReview;
+      });
+    },
     clearData: (state) => {
       state.fetchData = undefined;
     },

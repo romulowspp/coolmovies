@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import { movieActions, movieReviewActions, useAppDispatch, useAppSelector } from "../redux";
+import Link from "next/link";
 
 const MovieReviews = () => {
   const dispatch = useAppDispatch();
@@ -9,7 +10,6 @@ const MovieReviews = () => {
   const movies = useAppSelector((state) => state.movie);
 
   useEffect(() => {
-    console.log(movieReviewState.fetchData)
     if (movieReviewState.fetchData) {
       if (!movies.fetchData) {
         dispatch(
@@ -40,6 +40,7 @@ const MovieReviews = () => {
                 Review by {review.userByUserReviewerId?.name}
               </Typography>
               <Typography variant="body2">{review.body}</Typography>
+              <Link shallow={true} href={`/reviews/edit?id=${review.id}`}>Edit Review</Link>
             </CardContent>
           </Card>
         </Box>

@@ -1,6 +1,5 @@
-import User from "./user.interface";
-
 export default interface MovieReviewInput {
+    id?: string;
     title?: string;
     body?: string;
     rating?: number;
