@@ -1,8 +1,13 @@
-// MovieReviews.js
 import React, { useEffect } from "react";
-import { Box, Card, CardContent, Typography } from "@mui/material";
-import { movieActions, movieReviewActions, useAppDispatch, useAppSelector } from "../redux";
+import { Box, Card, CardContent, SvgIcon, Typography } from "@mui/material";
+import {
+  movieActions,
+  movieReviewActions,
+  useAppDispatch,
+  useAppSelector,
+} from "../redux";
 import Link from "next/link";
+import EditIcon from "../public/edit.svg";
 
 const MovieReviews = () => {
   const dispatch = useAppDispatch();
@@ -12,15 +17,15 @@ const MovieReviews = () => {
   useEffect(() => {
     if (movieReviewState.fetchData) {
       if (!movies.fetchData) {
-        dispatch(
-          movieActions.fetch()
-        );
+        dispatch(movieActions.fetch());
       }
       return;
     }
 
     dispatch(
-      movieReviewState.fetchData ? movieReviewActions.clearData() : movieReviewActions.fetch()
+      movieReviewState.fetchData
+        ? movieReviewActions.clearData()
+        : movieReviewActions.fetch()
     );
   }, [movieReviewState.fetchData, dispatch, movies]);
 
@@ -31,7 +36,11 @@ const MovieReviews = () => {
           <Card sx={{ borderRadius: "16px" }}>
             <CardContent>
               <Typography variant="h5" component="div">
-                {review.movieId ? movies?.fetchData?.find((movie) => movie.id === review.movieId)?.title : JSON.stringify(review)}
+                {review.movieId
+                  ? movies?.fetchData?.find(
+                      (movie) => movie.id === review.movieId
+                    )?.title
+                  : JSON.stringify(review)}
               </Typography>
               <Typography variant="h6" component="div">
                 {review.title}
@@ -40,7 +49,14 @@ const MovieReviews = () => {
                 Review by {review.userByUserReviewerId?.name}
               </Typography>
               <Typography variant="body2">{review.body}</Typography>
-              <Link shallow={true} href={`/reviews/edit?id=${review.id}`}>Edit Review</Link>
+              <Link
+                shallow={true}
+                href={`/reviews/edit?id=${review.id}`}
+              >
+                <SvgIcon>
+                <EditIcon/>
+                </SvgIcon>
+              </Link>
             </CardContent>
           </Card>
         </Box>
