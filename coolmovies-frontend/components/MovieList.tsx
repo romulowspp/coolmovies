@@ -6,8 +6,6 @@ import {
   CardMedia,
   CardContent,
   Typography,
-  Container,
-  Button,
   CircularProgress,
 } from "@mui/material";
 import { movieActions, useAppDispatch, useAppSelector } from "../redux";

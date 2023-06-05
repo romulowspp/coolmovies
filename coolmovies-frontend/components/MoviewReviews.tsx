@@ -9,11 +9,9 @@ const MovieReviews = () => {
   const movies = useAppSelector((state) => state.movie);
 
   useEffect(() => {
+    console.log(movieReviewState.fetchData)
     if (movieReviewState.fetchData) {
-      const movieIds = movieReviewState.fetchData.map((review) => review.movieId as string);
-      const moviesNotFetched = movieIds.filter((id) => !movies.fetchData?.find((movie) => movie.id === id));
-      if (moviesNotFetched.length) {
-        console.log('fetching movies')
+      if (!movies.fetchData) {
         dispatch(
           movieActions.fetch()
         );
@@ -39,7 +37,7 @@ const MovieReviews = () => {
                 {review.title}
               </Typography>
               <Typography variant="subtitle1" color="text.secondary">
-                Review by {review.user_review_id}
+                Review by {review.userByUserReviewerId?.name}
               </Typography>
               <Typography variant="body2">{review.body}</Typography>
             </CardContent>

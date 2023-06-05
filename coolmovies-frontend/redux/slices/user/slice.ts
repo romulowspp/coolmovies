@@ -1,30 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import MovieReview from '../../../models/movie-review.interface';
-import MovieReviewInput from '../../../models/movie-review-input.interface';
+import Movie from '../../../models/movie.interface';
+import User from '../../../models/user.interface';
 
-interface MovieReviewState {
-  fetchData?: MovieReview[];
+export interface UserState {
+  currentUser?: User;
   fetchError?: string;
   isLoading: boolean;
 }
 
-const initialState: MovieReviewState = {
+const initialState: UserState = {
   isLoading: false
 };
 
+
 export const slice = createSlice({
   initialState,
-  name: 'movie_review',
+  name: 'user',
   reducers: {
     fetch: (state) => {
       state.isLoading = true;
     },
-    create: (state, action: PayloadAction<{ movieReview: MovieReviewInput }>) => {},
     clearData: (state) => {
-      state.fetchData = undefined;
+      state.currentUser = undefined;
     },
-    loaded: (state, action: PayloadAction<{ data: MovieReview[] }>) => {
-      state.fetchData = action.payload.data;
+    loaded: (state, action: PayloadAction<{ data: User }>) => {
+      state.currentUser = action.payload.data;
       state.isLoading = false;
     },
     loadError: (state) => {

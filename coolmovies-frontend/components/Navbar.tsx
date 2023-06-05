@@ -1,11 +1,18 @@
 import { Button, Container, Typography, css } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
 import Link from "next/link";
+import { useAppDispatch, userActions } from "../redux";
 
 const Navbar = () => {
+  const dispatch = useAppDispatch();
   const handleClick = () => { };
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(userActions.fetch());
+  }, [dispatch]);
+
   return (
     <Container maxWidth="xl" css={styles.navBar}>
       <MovieFilterIcon sx={{ fontSize: 30 }} />
