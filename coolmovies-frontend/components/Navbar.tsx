@@ -6,8 +6,6 @@ import { movieActions, useAppDispatch, userActions } from "../redux";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
-  const handleClick = () => { };
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     dispatch(userActions.fetch());
@@ -23,26 +21,21 @@ const Navbar = () => {
       <Link
         css={styles.navItem}
         id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        href={'/'}
+        href={`/reviews`}
         shallow={true}
       >
-        HOME
+        REVIEWS
       </Link>
       <Link
         css={styles.navItem}
         id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        href={`/reviews`}
+        href={`/reviews/add`}
         shallow={true}
       >
-        MY REVIEWS
+        ADD REVIEW
       </Link>
-
     </Container>
   );
 }
